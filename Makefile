@@ -2,16 +2,16 @@
 #  Make Rules
 ######################################################################
 
-PREFIX		?= arm-none-eabi
-OPENCM3_DIR 	:= external/libopencm3
-SRC_DIR 			:= src
-RTOS_DIR 			:= src/rtos
-BUILD_DIR 		:= build
-BINARY 			  := $(BUILD_DIR)/out
+PREFIX	?= arm-none-eabi
+OPENCM3_DIR	:= external/libopencm3
+SRC_DIR	:= src
+RTOS_DIR	:= src/rtos
+BUILD_DIR	:= build
+BINARY	:= $(BUILD_DIR)/out
 
 
-LIBNAME		= opencm3_stm32f1
-DEFS		+= -DSTM32F1
+LIBNAME	= opencm3_stm32f1
+DEFS	+= -DSTM32F1
 
 FP_FLAGS	?= -msoft-float
 ARCH_FLAGS	= -mthumb -mcpu=cortex-m3 $(FP_FLAGS) -mfix-cortex-m3-ldrd
@@ -33,10 +33,10 @@ STYLECHECKFILES	:= $(shell find . -name '*.[ch]')
 OPT		:= -Os -g
 CSTD		?= -std=c99
 
-SRCFILES 	= $(wildcard $(SRC_DIR)/*.c) $(wildcard $(RTOS_DIR)/*.c)
-TEMP1 	= $(patsubst %.c,%.o,$(SRCFILES))
-TEMP2		= $(patsubst %.asm,%.o,$(TEMP1))
-OBJS 		= $(patsubst %.cpp,%.o,$(TEMP2))
+SRCFILES	= $(wildcard $(SRC_DIR)/*.c) $(wildcard $(RTOS_DIR)/*.c)
+TEMP1	= $(patsubst %.c,%.o,$(SRCFILES))
+TEMP2	= $(patsubst %.asm,%.o,$(TEMP1))
+OBJS	= $(patsubst %.cpp,%.o,$(TEMP2))
 
 LDSCRIPT	?= $(SRC_DIR)/stm32f103c8t6.ld
 
