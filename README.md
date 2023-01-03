@@ -1,2 +1,3 @@
-# template-blue-pill-project
-New blue Pill project using openlibcm3 
+# template-bluepill-project-freertos
+
+New blue Pill project using openlibcm3 + FreeRTOS
