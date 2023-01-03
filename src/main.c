@@ -1,50 +1,55 @@
-#include <stddef.h>
-#include <libopencm3/cm3/nvic.h>
-#include <libopencm3/cm3/systick.h>
-#include <libopencm3/stm32/gpio.h>
+/* Simple LED task demo:
+ *
+ * The LED on PC13 is toggled in task1.
+ */
+#include <string.h>
+
+#include "FreeRTOS.h"
+#include "task.h"
+
 #include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
+#include <libopencm3/cm3/nvic.h>
 
-static volatile uint32_t tick_ms_count;
+#define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
 
-void sleep_ms(uint32_t ms){
+extern void vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName);
 
-  uint32_t current_ms = tick_ms_count;
-  while ((tick_ms_count - current_ms) < ms) {
-    continue;
-  }
+void
+vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName) {
+	(void)pxTask;
+	(void)pcTaskName;
+	for(;;);
 }
 
-static void gpio_setup(void){
+static void
+gpio_setup(void) {
 
-  rcc_periph_clock_enable(RCC_GPIOC);
-  gpio_set(GPIOC,GPIO13);
-  gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO13);
-
-
+	rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
+	rcc_periph_clock_enable(RCC_GPIOC);
+	gpio_set_mode(GPIOC,GPIO_MODE_OUTPUT_2_MHZ,GPIO_CNF_OUTPUT_PUSHPULL,GPIO13);
 }
 
-static void systick_setup(){
+static void
+task1(void *args) {
 
-  systick_set_clocksource(STK_CSR_CLKSOURCE_AHB_DIV8);
-  systick_set_reload(8999);
-  systick_interrupt_enable();
-  systick_counter_enable();
+	(void)args;
 
-
+	for (;;) {
+		gpio_toggle(GPIOC,GPIO13);
+	  vTaskDelay((500/portTICK_PERIOD_MS));
+	}
 }
 
-void sys_tick_handler(void){
-  tick_ms_count++;
+int
+main(void) {
+
+	gpio_setup();
+	xTaskCreate(task1,"LED",100,NULL,configMAX_PRIORITIES-1,NULL);
+	vTaskStartScheduler();
+	for (;;)
+		;
+	return 0;
 }
 
-int main(void){
-  rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
-  gpio_setup();
-  systick_setup();
-
-  while(1){
-    gpio_toggle(GPIOC,GPIO13);
-    sleep_ms(250);
-  }
-
-}
+// End
