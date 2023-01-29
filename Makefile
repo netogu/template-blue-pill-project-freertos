@@ -4,8 +4,9 @@
 
 PREFIX	?= arm-none-eabi
 OPENCM3_DIR	:= external/libopencm3
-SRC_DIR	:= src
+SRC_DIR	  := src
 RTOS_DIR	:= src/rtos
+LIB_DIR  	:= lib
 BUILD_DIR	:= build
 BINARY	:= $(BUILD_DIR)/out
 
@@ -33,7 +34,9 @@ STYLECHECKFILES	:= $(shell find . -name '*.[ch]')
 OPT		:= -Os -g
 CSTD		?= -std=c99
 
-SRCFILES	= $(wildcard $(SRC_DIR)/*.c) $(wildcard $(RTOS_DIR)/*.c)
+SRCFILES	= $(wildcard $(SRC_DIR)/*.c) 
+SRCFILES += $(wildcard $(RTOS_DIR)/*.c)
+SRCFILES += $(wildcard $(LIB_DIR)/*.c)
 TEMP1	= $(patsubst %.c,%.o,$(SRCFILES))
 TEMP2	= $(patsubst %.asm,%.o,$(TEMP1))
 OBJS	= $(patsubst %.cpp,%.o,$(TEMP2))
@@ -45,22 +48,28 @@ TGT_CFLAGS	+= $(ARCH_FLAGS)
 TGT_CFLAGS	+= -Wextra -Wshadow -Wimplicit-function-declaration
 TGT_CFLAGS	+= -Wredundant-decls -Wmissing-prototypes -Wstrict-prototypes
 TGT_CFLAGS	+= -fno-common -ffunction-sections -fdata-sections
+TGT_CFLAGS	+= -I.
 TGT_CFLAGS	+= -I$(OPENCM3_DIR)/include
-# TGT_CFLAGS	+= -I$(SRC_DIR)/rtos/libwwg/include
+TGT_CFLAGS  += -I$(LIB_DIR)
 TGT_CFLAGS	+= -I$(SRC_DIR) -I$(RTOS_DIR)
 
 TGT_CXXFLAGS	+= $(OPT) $(CXXSTD)
 TGT_CXXFLAGS	+= $(ARCH_FLAGS)
 TGT_CXXFLAGS	+= -Wextra -Wshadow -Wredundant-decls  -Weffc++
 TGT_CXXFLAGS	+= -fno-common -ffunction-sections -fdata-sections
+TGT_CXXFLAGS	+= -I.
+TGT_CXXFLAGS	+= -I$(OPENCM3_DIR)/include
 TGT_CXXFLAGS	+= -I$(SRC_DIR) -I$(RTOS_DIR)
+TGT_CXXFLAGS  += -I$(LIB_DIR)
+
 
 TGT_CPPFLAGS	+= -MD
 TGT_CPPFLAGS	+= -Wall -Wundef
 TGT_CPPFLAGS	+= $(DEFS)
+TGT_CPPFLAGS	+= -I.
 TGT_CPPFLAGS	+= -I$(OPENCM3_DIR)/include
-# TGT_CPPFLAGS	+= -I$(SRC_DIR)/rtos/libwwg/include
 TGT_CPPFLAGS	+=  -I$(SRC_DIR) -I$(RTOS_DIR)
+TGT_CPPFLAGS  += -I$(LIB_DIR)
 
 TGT_LDFLAGS	+= --static -nostartfiles
 TGT_LDFLAGS	+= -T$(LDSCRIPT)
@@ -153,7 +162,7 @@ clobber: clean
 
 # Flash 64k Device
 flash:	$(BINARY).bin
-	$(STFLASH) $(FLASHSIZE) write $(BINARY).bin 0x8000000
+	$(STFLASH) $(FLASHSIZE) write $(BINARY).bin 0x8000000 
 
 # Flash 128k Device
 bigflash: $(BINARY).bin
