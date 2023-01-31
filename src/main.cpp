@@ -2,7 +2,6 @@
  *
  * The LED on PC13 is toggled in task1.
  */
-#include <string.h>
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -13,64 +12,50 @@
 #include <libopencm3/stm32/spi.h>
 
 #include <usbcdc.h>
+#include "w25.h"
+#include "magsensor.h"
 
-#define W25_CMD_MANUF_DEVICE	0x90
-#define W25_CMD_JEDEC_ID	0x9F
-#define W25_CMD_WRITE_EN	0x06
-#define W25_CMD_WRITE_DI	0x04
-#define W25_CMD_READ_SR1	0x05
-#define W25_CMD_READ_SR2	0x35
-#define W25_CMD_CHIP_ERASE	0xC7
-#define W25_CMD_READ_DATA	0x03
-#define W25_CMD_FAST_READ	0x0B
-#define W25_CMD_WRITE_DATA	0x02
-#define W25_CMD_READ_UID	0x4B
-#define W25_CMD_PWR_ON		0xAB
-#define W25_CMD_PWR_OFF		0xB9
-#define W25_CMD_ERA_SECTOR	0x20
-#define W25_CMD_ERA_32K		0x52
-#define W25_CMD_ERA_64K		0xD8
 
-#define DUMMY			0x00
 
-#define W25_SR1_BUSY		0x01
-#define W25_SR1_WEL		0x02
+class Counter {
+	public:
+		int value;
+		void count(void){value++;}
+};
+
 
 static void gpio_setup(void);
 static void spi_setup(void);
 
-static uint8_t w25_read_sr1(uint32_t spi);
-static void w25_wait(uint32_t spi);
-static uint16_t w25_manuf_device(uint32_t spi);
-
 
 #define mainECHO_TASK_PRIORITY				( tskIDLE_PRIORITY + 1 )
 
-extern void vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName);
+void vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName);
 
-void
+
+extern void
 vApplicationStackOverflowHook(xTaskHandle *pxTask,signed portCHAR *pcTaskName) {
 	(void)pxTask;
 	(void)pcTaskName;
 	for(;;);
 }
 
-
-
 static void
 task1(void *args) {
 
 	(void)args;
-	uint32_t counter = 0;
 	uint16_t w25_mfn = 0;
+	Counter MyCounter;
+	MagAngleSensor AngleSensor;
+	MyCounter.value=0;
 
 	for (;;) {
 		gpio_toggle(GPIOC,GPIO13);
-		counter++;
+		MyCounter.count();
+	
 		w25_mfn = w25_manuf_device(SPI1);
-		usb_printf("Hello World %d - %X\n", counter, w25_mfn);
-
-	  vTaskDelay((100/portTICK_PERIOD_MS));
+		usb_printf("Class Counter %d - %X\n", MyCounter.value, w25_mfn);
+	  vTaskDelay((300/portTICK_PERIOD_MS));
 	}
 }
 
@@ -88,6 +73,7 @@ main(void) {
 		;
 	return 0;
 }
+
 
 static void 
 gpio_setup(void) {
@@ -122,37 +108,4 @@ spi_setup(void) {
 	spi_enable_ss_output(SPI1);
 }
 
-static uint8_t
-w25_read_sr1(uint32_t spi) {
-	uint8_t sr1;
-
-	spi_enable(spi);
-	spi_xfer(spi,W25_CMD_READ_SR1);
-	sr1 = spi_xfer(spi,DUMMY);
-	spi_disable(spi);
-	return sr1;
-}
-
-static void
-w25_wait(uint32_t spi) {
-
-	while ( w25_read_sr1(spi) & W25_SR1_BUSY )
-		taskYIELD();
-}
-
-static uint16_t
-w25_manuf_device(uint32_t spi) {
-	uint16_t info;
-
-	w25_wait(spi);
-	spi_enable(spi);
-	spi_xfer(spi,W25_CMD_MANUF_DEVICE);	// Byte 1
-	spi_xfer(spi,DUMMY);			// Dummy1 (2)
-	spi_xfer(spi,DUMMY);			// Dummy2 (3)
-	spi_xfer(spi,0x00);			// Byte 4
-	info = spi_xfer(spi,DUMMY) << 8;	// Byte 5
-	info |= spi_xfer(spi,DUMMY);		// Byte 6
-	spi_disable(spi);
-	return info;
-}
 // End

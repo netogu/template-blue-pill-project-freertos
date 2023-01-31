@@ -56,6 +56,7 @@
 #define configUSE_16_BIT_TICKS		0
 #define configIDLE_SHOULD_YIELD		1
 #define configUSE_MUTEXES			1
+#define configUSE_MALLOC_FAILED_HOOK 0
 
 
 /* Set the following definitions to 1 to include the API function, or zero

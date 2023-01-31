@@ -33,8 +33,10 @@ STYLECHECKFLAGS	:= --no-tree -f --terse --mailback
 STYLECHECKFILES	:= $(shell find . -name '*.[ch]')
 OPT		:= -Os -g
 CSTD		?= -std=c99
+CXXSTD		?= -std=c++17
 
 SRCFILES	= $(wildcard $(SRC_DIR)/*.c) 
+SRCFILES += $(wildcard $(SRC_DIR)/*.cpp) 
 SRCFILES += $(wildcard $(RTOS_DIR)/*.c)
 SRCFILES += $(wildcard $(LIB_DIR)/*.c)
 TEMP1	= $(patsubst %.c,%.o,$(SRCFILES))
@@ -68,7 +70,7 @@ TGT_CPPFLAGS	+= -Wall -Wundef
 TGT_CPPFLAGS	+= $(DEFS)
 TGT_CPPFLAGS	+= -I.
 TGT_CPPFLAGS	+= -I$(OPENCM3_DIR)/include
-TGT_CPPFLAGS	+=  -I$(SRC_DIR) -I$(RTOS_DIR)
+TGT_CPPFLAGS	+= -I$(SRC_DIR) -I$(RTOS_DIR)
 TGT_CPPFLAGS  += -I$(LIB_DIR)
 
 TGT_LDFLAGS	+= --static -nostartfiles
