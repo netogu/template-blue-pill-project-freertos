@@ -7,6 +7,8 @@ OPENCM3_DIR	:= external/libopencm3
 SRC_DIR	  := src
 RTOS_DIR	:= src/rtos
 LIB_DIR  	:= lib
+NEWLIB_C_DIR := /usr/include/newlib
+NEWLIB_CPP_DIR := /usr/include/newlib/c++/10.3.1
 BUILD_DIR	:= build
 BINARY	:= $(BUILD_DIR)/out
 
@@ -54,6 +56,8 @@ TGT_CFLAGS	+= -I.
 TGT_CFLAGS	+= -I$(OPENCM3_DIR)/include
 TGT_CFLAGS  += -I$(LIB_DIR)
 TGT_CFLAGS	+= -I$(SRC_DIR) -I$(RTOS_DIR)
+TGT_CFLAGS	+= -I$(NEWLIB_C_DIR)
+
 
 TGT_CXXFLAGS	+= $(OPT) $(CXXSTD)
 TGT_CXXFLAGS	+= $(ARCH_FLAGS)
@@ -72,6 +76,7 @@ TGT_CPPFLAGS	+= -I.
 TGT_CPPFLAGS	+= -I$(OPENCM3_DIR)/include
 TGT_CPPFLAGS	+= -I$(SRC_DIR) -I$(RTOS_DIR)
 TGT_CPPFLAGS  += -I$(LIB_DIR)
+TGT_CPPFLAGS  += -I$(NEWLIB_CPP_DIR)
 
 TGT_LDFLAGS	+= --static -nostartfiles
 TGT_LDFLAGS	+= -T$(LDSCRIPT)
