@@ -46,15 +46,19 @@ SensorTask(void *args) {
 	 * */
 
 	(void)args;
-	MagAngleSensor AngleSensor;
-	uint16_t angle;
+	MagAngleSensor AngleSensor1;
+	MagAngleSensor AngleSensor2;
+	uint16_t angle1;
+	uint16_t angle2;
 	uint32_t counter = 0;
-	AngleSensor.begin(SPI1);
+	AngleSensor1.begin(SPI1,GPIOA,GPIO3);
+	AngleSensor2.begin(SPI1,GPIOA,GPIO4);
 
 	for (;;) {
 		gpio_toggle(GPIOC,GPIO13);
-		angle = AngleSensor.read_angle_raw();
-		usb_printf("Angle\t%u\t%u\n", counter, angle);
+		angle1 = AngleSensor1.read_angle_raw();
+		angle2 = AngleSensor2.read_angle_raw();
+		usb_printf("%u\tAngle1=%u\tAngle2=%u\n", counter, angle1,angle2);
 		counter++;
 	  vTaskDelay((100/portTICK_PERIOD_MS));
 	}
@@ -80,8 +84,14 @@ int main(void) {
 static void 
 gpio_setup(void) {
 
+	rcc_periph_clock_enable(RCC_GPIOA);
 	rcc_periph_clock_enable(RCC_GPIOC);
 	gpio_set_mode(GPIOC,GPIO_MODE_OUTPUT_2_MHZ,GPIO_CNF_OUTPUT_PUSHPULL,GPIO13);
+	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_10_MHZ,GPIO_CNF_OUTPUT_PUSHPULL,GPIO3);
+	gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_10_MHZ,GPIO_CNF_OUTPUT_PUSHPULL,GPIO4);
+	// Set SPI Device CS high
+	gpio_set(GPIOA,GPIO3);
+	gpio_set(GPIOA,GPIO4);
 
 }
 
@@ -95,7 +105,7 @@ spi_setup(void) {
 	gpio_set_mode(GPIOA,
 			GPIO_MODE_OUTPUT_50_MHZ,
 			GPIO_CNF_OUTPUT_ALTFN_PUSHPULL,
-			GPIO4|GPIO5|GPIO7);
+			GPIO5|GPIO7);
 	//MISO = PA6
 	gpio_set_mode(GPIOA,
 				GPIO_MODE_INPUT,
@@ -114,8 +124,12 @@ spi_setup(void) {
 			SPI_CR1_DFF_8BIT,
 			SPI_CR1_MSBFIRST);
 
-	spi_disable_software_slave_management(SPI1);
-	spi_enable_ss_output(SPI1);
+	spi_enable_software_slave_management(SPI1);
+	/* spi_disable_software_slave_management(SPI1); */
+	spi_disable_ss_output(SPI1);
+	spi_set_nss_high(SPI1);
+	/* spi_enable_ss_output(SPI1); */;
+	spi_enable(SPI1);
 }
 
 // End

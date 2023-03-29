@@ -38,9 +38,9 @@
       "src/opencm3.o",
       "src/opencm3.c"
     ],
-    "directory": "/home/eurdaneta/Projects/embedded/bluepill_usb",
-    "file": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/opencm3.c",
-    "output": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/opencm3.o"
+    "directory": "/home/eurdaneta/Projects/embedded/bluepill_magsense",
+    "file": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/opencm3.c",
+    "output": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/opencm3.o"
   },
   {
     "arguments": [
@@ -78,9 +78,9 @@
       "src/magsensor.o",
       "src/magsensor.cpp"
     ],
-    "directory": "/home/eurdaneta/Projects/embedded/bluepill_usb",
-    "file": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/magsensor.cpp",
-    "output": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/magsensor.o"
+    "directory": "/home/eurdaneta/Projects/embedded/bluepill_magsense",
+    "file": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/magsensor.cpp",
+    "output": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/magsensor.o"
   },
   {
     "arguments": [
@@ -118,9 +118,9 @@
       "src/main.o",
       "src/main.cpp"
     ],
-    "directory": "/home/eurdaneta/Projects/embedded/bluepill_usb",
-    "file": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/main.cpp",
-    "output": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/main.o"
+    "directory": "/home/eurdaneta/Projects/embedded/bluepill_magsense",
+    "file": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/main.cpp",
+    "output": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/main.o"
   },
   {
     "arguments": [
@@ -161,9 +161,9 @@
       "src/rtos/heap_4.o",
       "src/rtos/heap_4.c"
     ],
-    "directory": "/home/eurdaneta/Projects/embedded/bluepill_usb",
-    "file": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/rtos/heap_4.c",
-    "output": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/rtos/heap_4.o"
+    "directory": "/home/eurdaneta/Projects/embedded/bluepill_magsense",
+    "file": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/rtos/heap_4.c",
+    "output": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/rtos/heap_4.o"
   },
   {
     "arguments": [
@@ -204,9 +204,9 @@
       "src/rtos/list.o",
       "src/rtos/list.c"
     ],
-    "directory": "/home/eurdaneta/Projects/embedded/bluepill_usb",
-    "file": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/rtos/list.c",
-    "output": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/rtos/list.o"
+    "directory": "/home/eurdaneta/Projects/embedded/bluepill_magsense",
+    "file": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/rtos/list.c",
+    "output": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/rtos/list.o"
   },
   {
     "arguments": [
@@ -247,9 +247,9 @@
       "src/rtos/port.o",
       "src/rtos/port.c"
     ],
-    "directory": "/home/eurdaneta/Projects/embedded/bluepill_usb",
-    "file": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/rtos/port.c",
-    "output": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/rtos/port.o"
+    "directory": "/home/eurdaneta/Projects/embedded/bluepill_magsense",
+    "file": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/rtos/port.c",
+    "output": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/rtos/port.o"
   },
   {
     "arguments": [
@@ -290,9 +290,9 @@
       "src/rtos/queue.o",
       "src/rtos/queue.c"
     ],
-    "directory": "/home/eurdaneta/Projects/embedded/bluepill_usb",
-    "file": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/rtos/queue.c",
-    "output": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/rtos/queue.o"
+    "directory": "/home/eurdaneta/Projects/embedded/bluepill_magsense",
+    "file": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/rtos/queue.c",
+    "output": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/rtos/queue.o"
   },
   {
     "arguments": [
@@ -333,9 +333,9 @@
       "src/rtos/tasks.o",
       "src/rtos/tasks.c"
     ],
-    "directory": "/home/eurdaneta/Projects/embedded/bluepill_usb",
-    "file": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/rtos/tasks.c",
-    "output": "/home/eurdaneta/Projects/embedded/bluepill_usb/src/rtos/tasks.o"
+    "directory": "/home/eurdaneta/Projects/embedded/bluepill_magsense",
+    "file": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/rtos/tasks.c",
+    "output": "/home/eurdaneta/Projects/embedded/bluepill_magsense/src/rtos/tasks.o"
   },
   {
     "arguments": [
@@ -376,9 +376,9 @@
       "lib/getline.o",
       "lib/getline.c"
     ],
-    "directory": "/home/eurdaneta/Projects/embedded/bluepill_usb",
-    "file": "/home/eurdaneta/Projects/embedded/bluepill_usb/lib/getline.c",
-    "output": "/home/eurdaneta/Projects/embedded/bluepill_usb/lib/getline.o"
+    "directory": "/home/eurdaneta/Projects/embedded/bluepill_magsense",
+    "file": "/home/eurdaneta/Projects/embedded/bluepill_magsense/lib/getline.c",
+    "output": "/home/eurdaneta/Projects/embedded/bluepill_magsense/lib/getline.o"
   },
   {
     "arguments": [
@@ -419,9 +419,9 @@
       "lib/miniprintf.o",
       "lib/miniprintf.c"
     ],
-    "directory": "/home/eurdaneta/Projects/embedded/bluepill_usb",
-    "file": "/home/eurdaneta/Projects/embedded/bluepill_usb/lib/miniprintf.c",
-    "output": "/home/eurdaneta/Projects/embedded/bluepill_usb/lib/miniprintf.o"
+    "directory": "/home/eurdaneta/Projects/embedded/bluepill_magsense",
+    "file": "/home/eurdaneta/Projects/embedded/bluepill_magsense/lib/miniprintf.c",
+    "output": "/home/eurdaneta/Projects/embedded/bluepill_magsense/lib/miniprintf.o"
   },
   {
     "arguments": [
@@ -462,8 +462,8 @@
       "lib/usbcdc.o",
       "lib/usbcdc.c"
     ],
-    "directory": "/home/eurdaneta/Projects/embedded/bluepill_usb",
-    "file": "/home/eurdaneta/Projects/embedded/bluepill_usb/lib/usbcdc.c",
-    "output": "/home/eurdaneta/Projects/embedded/bluepill_usb/lib/usbcdc.o"
+    "directory": "/home/eurdaneta/Projects/embedded/bluepill_magsense",
+    "file": "/home/eurdaneta/Projects/embedded/bluepill_magsense/lib/usbcdc.c",
+    "output": "/home/eurdaneta/Projects/embedded/bluepill_magsense/lib/usbcdc.o"
   }
 ]

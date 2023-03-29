@@ -1,5 +1,6 @@
 #include "magsensor.h"
 #include <libopencm3/stm32/spi.h>
+#include <libopencm3/stm32/gpio.h>
 
 
 //TODO change to enum
@@ -15,14 +16,14 @@
 #define PI2 6.283185307	
 
 
-MagAngleSensor::MagAngleSensor(): _spi(0){
+MagAngleSensor::MagAngleSensor(): _spi(0),_cs_port(0),_cs_pin(0){
 	 
 }
 
 
-inline std::uint16_t MagAngleSensor::_send_cmd(std::uint8_t cmd_header, std::uint8_t reg_val){
+inline uint16_t MagAngleSensor::_send_cmd(uint8_t cmd_header, uint8_t reg_val){
 
-	std::uint16_t rx;
+	uint16_t rx;
 
 	spi_set_dff_16bit(_spi);
 	spi_enable(_spi);
@@ -34,20 +35,23 @@ inline std::uint16_t MagAngleSensor::_send_cmd(std::uint8_t cmd_header, std::uin
 
 }
 
-std::uint16_t MagAngleSensor::read_angle_raw(){
-	std::uint16_t angle_raw = 0;
+uint16_t MagAngleSensor::read_angle_raw(){
+	uint16_t angle_raw = 0;
 	spi_set_dff_16bit(_spi);
-	spi_enable(_spi);
+	gpio_clear(_cs_port, _cs_pin);
 	angle_raw = spi_xfer(_spi, 0x0000);
-	spi_disable(_spi);
+	gpio_set(_cs_port,_cs_pin);
 	spi_set_dff_8bit(_spi);
 	return angle_raw;
 
 }
 
 
-void MagAngleSensor::begin(std::uint32_t spi_base){
+void MagAngleSensor::begin(uint32_t spi_base, uint32_t cs_port, uint32_t cs_pin){
 	_spi = spi_base;
+	_cs_port = cs_port;
+	_cs_pin = cs_pin;
+
 }
 
 
@@ -55,7 +59,7 @@ void MagAngleSensor::begin(std::uint32_t spi_base){
 
 float MagAngleSensor::read_angle_deg(){
 	float angle;
-	std::uint16_t angle_raw = 0;
+	uint16_t angle_raw = 0;
 	angle_raw = read_angle_raw();
 	angle = (angle_raw*360.0)/65536.0;
 
@@ -66,7 +70,7 @@ float MagAngleSensor::read_angle_deg(){
 
 float MagAngleSensor::read_angle_rad(){
 	float angle;
-	std::uint16_t angle_raw = 0;
+	uint16_t angle_raw = 0;
 	angle_raw = read_angle_raw();
 	angle = (angle_raw*PI2)/65536.0f;
 
@@ -75,17 +79,17 @@ float MagAngleSensor::read_angle_rad(){
 } 
 
 
-std::uint16_t MagAngleSensor::read_register(std::uint16_t address){
-	std::uint16_t value;
+uint16_t MagAngleSensor::read_register(uint16_t address){
+	uint16_t value;
 	value = _send_cmd(CMD_HEADER(READ_REG, address), 0x00);
 	return value;
 
 }
 
 
-bool MagAngleSensor::write_register(std::uint16_t address, std::uint16_t value){
+bool MagAngleSensor::write_register(uint16_t address, uint16_t value){
 
-	std::uint16_t new_value;
+	uint16_t new_value;
 	new_value = _send_cmd(CMD_HEADER(WRITE_REG, address), value);
 
 	if(new_value == value)
@@ -96,7 +100,7 @@ bool MagAngleSensor::write_register(std::uint16_t address, std::uint16_t value){
 }
 
 
-void MagAngleSensor::store_single_register(std::uint16_t address){
+void MagAngleSensor::store_single_register(uint16_t address){
 
 	_send_cmd(CMD_HEADER(STORE_REG, address), 0x00);
 
